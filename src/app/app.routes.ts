@@ -4,6 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CreateIncidentComponent } from './components/Incidents/create-incident/create-incident.component';
+import { UpdateIncidentComponent } from './components/Incidents/update-incident/update-incident.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,6 +17,11 @@ export const routes: Routes = [
   {
     path: 'incidents/:id',
     component: IncidentDetailsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'incidents/:id/edit',
+    component: UpdateIncidentComponent,
     canActivate: [AuthGuard],
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

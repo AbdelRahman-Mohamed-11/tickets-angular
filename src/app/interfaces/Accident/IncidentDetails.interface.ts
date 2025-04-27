@@ -1,7 +1,7 @@
 export interface GetCommentDto {
   id: string;
   text: string;
-  creatorId: string;
+  createdBy: string;
   createdAt: string;
 }
 

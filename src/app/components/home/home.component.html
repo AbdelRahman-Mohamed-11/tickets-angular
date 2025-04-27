@@ -175,7 +175,12 @@
               >
                 View
               </button>
-              <button class="update-btn">Update</button>
+              <button
+                class="update-btn"
+                (click)="navigateToEditIncident(accident.id)"
+              >
+                Update
+              </button>
             </td>
           </tr>
         </tbody>

@@ -17,8 +17,15 @@ export class AuthService {
     this.checkInitialAuth();
   }
 
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.API_URL}/auth/users/current`);
+  }
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.API_URL}/auth/users`);
+  }
+
+  getERPUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.API_URL}/auth/erp-users`);
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {

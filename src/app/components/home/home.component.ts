@@ -235,4 +235,7 @@ export class HomeComponent implements OnInit {
   navigateToViewIncident(id: number): void {
     this.router.navigateByUrl(`/incidents/${id}`);
   }
+  navigateToEditIncident(id: number): void {
+    this.router.navigateByUrl(`/incidents/${id}/edit`);
+  }
 }

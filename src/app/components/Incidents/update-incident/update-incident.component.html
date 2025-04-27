@@ -1,0 +1,196 @@
+<ng-template #loadingOrError>
+  <div *ngIf="loading" class="loading">Loading incident…</div>
+  <div *ngIf="!loading && error" class="error">{{ error }}</div>
+</ng-template>
+
+<div *ngIf="!loading && incident; else loadingOrError" class="update-card">
+  <h2 class="title">Update Incident</h2>
+
+  <!-- Read-only header info -->
+  <dl class="details-grid">
+    <dt>Subject</dt>
+    <dd>{{ incident.subject }}</dd>
+
+    <dt>Description</dt>
+    <dd class="wide">{{ incident.description }}</dd>
+
+    <dt>Created</dt>
+    <dd>{{ incident.createdDate | date : "yyyy-MM-dd" }}</dd>
+  </dl>
+
+  <!-- Update form -->
+  <section class="update-form-section">
+    <h3 class="section-title">Update Details</h3>
+    <form #form="ngForm" (ngSubmit)="save()" class="update-form">
+      <div class="form-group">
+        <label for="suggestion"
+          >Suggestion <span class="required">*</span></label
+        >
+        <textarea
+          id="suggestion"
+          name="suggestion"
+          [(ngModel)]="incident.suggestion"
+          required
+          maxlength="500"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="userStatus"
+            >User Status <span class="required">*</span></label
+          >
+          <select
+            id="userStatus"
+            name="userStatus"
+            [(ngModel)]="incident.userStatus"
+            required
+          >
+            <option [ngValue]="null">Select…</option>
+            <option *ngFor="let s of userStatuses" [ngValue]="s.value">
+              {{ s.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="supportStatus"
+            >Support Status <span class="required">*</span></label
+          >
+          <select
+            id="supportStatus"
+            name="supportStatus"
+            [(ngModel)]="incident.supportStatus"
+            required
+          >
+            <option [ngValue]="null">Select…</option>
+            <option *ngFor="let s of supportStatuses" [ngValue]="s.value">
+              {{ s.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="isAdmin">
+          <label for="assignedToId"
+            >Assigned To <span class="required">*</span></label
+          >
+          <select
+            id="assignedToId"
+            name="assignedToId"
+            [(ngModel)]="incident.assignedToId"
+            required
+          >
+            <option [ngValue]="null">Select user…</option>
+            <option *ngFor="let u of users" [ngValue]="u.id">
+              {{ u.userName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="deliveryDate"
+            >Delivery Date <span class="required">*</span></label
+          >
+          <input
+            id="deliveryDate"
+            type="date"
+            name="deliveryDate"
+            [(ngModel)]="incident.deliveryDate"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="files">New Attachments</label>
+        <input
+          id="files"
+          type="file"
+          (change)="onFileChange($event)"
+          multiple
+          accept="image/*"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="btn-save"
+        [disabled]="!form.valid || loading"
+      >
+        Save Changes
+      </button>
+    </form>
+  </section>
+
+  <!-- Existing attachments -->
+  <section *ngIf="incident.attachments.length" class="existing-attachments">
+    <h3 class="section-title">Attachments</h3>
+    <div class="attach-grid">
+      <figure
+        *ngFor="let a of incident.attachments"
+        class="attachment-card"
+        [class.removed]="attachmentsToRemove.includes(a.id)"
+        (click)="toggleRemoveAttachment(a)"
+      >
+        <div class="img-wrapper">
+          <img [src]="a.filePath" [alt]="a.fileName" />
+          <button
+            class="remove-btn"
+            (click)="toggleRemoveAttachment(a); $event.stopPropagation()"
+            [title]="attachmentsToRemove.includes(a.id) ? 'Restore' : 'Remove'"
+          >
+            ×
+          </button>
+        </div>
+        <figcaption>
+          <div class="file-name">{{ a.fileName }}</div>
+          <div class="upload-date">
+            {{ a.uploadedAt | date : "yyyy-MM-dd" }}
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Comments -->
+  <section class="comments-section">
+    <h3 class="section-title">Comments</h3>
+    <div *ngIf="incident.comments?.length; else noComments">
+      <div *ngFor="let comment of incident.comments" class="comment-card">
+        <div class="comment-header">
+          <div class="comment-user">
+            <div class="comment-avatar">
+              {{ comment.createdBy.charAt(0) }}
+            </div>
+            <span class="comment-author">{{ comment.createdBy }}</span>
+          </div>
+          <span class="comment-date">{{
+            comment.createdAt | date : "medium"
+          }}</span>
+        </div>
+        <div class="comment-body">
+          <p>{{ comment.text }}</p>
+        </div>
+      </div>
+    </div>
+    <ng-template #noComments>
+      <p class="no-data">No comments available.</p>
+    </ng-template>
+    <div class="add-comment-section">
+      <h3 class="section-title">Add a Comment</h3>
+      <form (ngSubmit)="addComment()">
+        <textarea
+          [(ngModel)]="newComment"
+          name="comment"
+          placeholder="Write your comment here..."
+          required
+          maxlength="500"
+          rows="4"
+        ></textarea>
+        <button type="submit" [disabled]="!newComment.trim() || loading">
+          Add Comment
+        </button>
+      </form>
+    </div>
+  </section>
+</div>

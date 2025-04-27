@@ -1,0 +1,261 @@
+/* Container Card */
+.update-card {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Main Titles */
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #222;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+  color: #444;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.25rem;
+}
+
+/* Read-only Details Grid */
+.details-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1.5rem;
+}
+.details-grid dt {
+  font-weight: 600;
+  color: #555;
+}
+.details-grid dd {
+  margin: 0 0 0.75rem;
+  color: #222;
+}
+.details-grid .wide {
+  grid-column: span 2;
+}
+
+/* Update Form Styles */
+.update-form {
+  display: flex;
+  flex-direction: column;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.form-row .form-group {
+  flex: 1 1 calc(50% - 1rem);
+  min-width: 160px;
+}
+label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #333;
+}
+.required {
+  color: #c62828;
+}
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+input[type="file"] {
+  font-size: 0.9rem;
+}
+.btn-save {
+  align-self: flex-start;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-save:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+.btn-save:not(:disabled):hover {
+  background: #0056b3;
+}
+
+/* Attachments Section */
+.existing-attachments {
+  margin-top: 1.5rem;
+}
+.attach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+.attachment-card {
+  background: #f9f9f9;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+.attachment-card:hover {
+  transform: scale(1.02);
+}
+.attachment-card.removed {
+  opacity: 0.4;
+}
+.img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+}
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(220, 53, 69, 0.9);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s;
+}
+.remove-btn:hover {
+  background: rgba(198, 40, 40, 0.9);
+}
+figcaption {
+  padding: 0.5rem;
+  text-align: center;
+}
+.file-name {
+  font-size: 0.85rem;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.upload-date {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.2rem;
+}
+
+/* Comments Section */
+.comments-section {
+  margin-top: 2rem;
+}
+.comment-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.comment-user {
+  display: flex;
+  align-items: center;
+}
+.comment-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+.comment-author {
+  font-weight: 600;
+  color: #333;
+}
+.comment-date {
+  font-size: 0.85rem;
+  color: #666;
+}
+.comment-body p {
+  margin: 0;
+  line-height: 1.6;
+  color: #444;
+}
+.no-data {
+  font-style: italic;
+  color: #888;
+  margin: 1rem 0;
+}
+.add-comment-section {
+  margin-top: 1.5rem;
+}
+.add-comment-section textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.add-comment-section button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+.add-comment-section button:disabled {
+  background-color: #94d3a2;
+  cursor: not-allowed;
+}

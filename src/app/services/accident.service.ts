@@ -5,7 +5,11 @@ import { AccidentPagedResult } from '../interfaces/Accident/AccidentPagedResult.
 import { IncidentListItem } from '../interfaces/Accident/IncidentListItem.interface';
 import { CreateIncidentDto } from '../interfaces/Accident/CreateIncidentDto.interface';
 import { CreateResponse } from '../interfaces/Accident/CreateResponse.interface';
-import { IncidentDetailsDto } from '../interfaces/Accident/IncidentDetails.interface';
+import {
+  GetCommentDto,
+  IncidentDetailsDto,
+} from '../interfaces/Accident/IncidentDetails.interface';
+import { AddCommentsDto } from '../interfaces/Accident/AddCommentDto.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -76,5 +80,40 @@ export class AccidentService {
 
   getIncidentDetails(id: string): Observable<IncidentDetailsDto> {
     return this.http.get<IncidentDetailsDto>(`${this.API_URL}/${id}`);
+  }
+
+  updateIncident(
+    id: string,
+    payload: {
+      suggestion?: string;
+      userStatus?: number;
+      supportStatus?: number;
+      assignedToId?: string;
+      deliveryDate?: string;
+    }
+  ): Observable<void> {
+    return this.http.put<void>(`${this.API_URL}/${id}`, payload);
+  }
+
+  updateAttachments(id: string, files: File[]): Observable<void> {
+    const form = new FormData();
+    files.forEach((f) => form.append('Files', f, f.name));
+    return this.http.put<void>(`${this.API_URL}/${id}/attachments`, form);
+  }
+
+  removeAttachments(id: string, attachmentIds: string[]): Observable<void> {
+    return this.http.post<void>(`${this.API_URL}/${id}/remove-attachments`, {
+      attachmentIds,
+    });
+  }
+
+  aaddCommentsToIncident(
+    incidentId: string,
+    dto: AddCommentsDto
+  ): Observable<GetCommentDto[]> {
+    return this.http.put<GetCommentDto[]>(
+      `${this.API_URL}/${incidentId}/comments`,
+      dto
+    );
   }
 }
