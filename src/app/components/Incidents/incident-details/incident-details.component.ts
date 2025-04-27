@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AccidentService } from '../../../services/accident.service';
 import { IncidentDetailsDto } from '../../../interfaces/Accident/IncidentDetails.interface';
 
@@ -55,7 +55,8 @@ export class IncidentDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private accidentService: AccidentService
+    private accidentService: AccidentService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -79,5 +80,9 @@ export class IncidentDetailsComponent implements OnInit {
 
   getLabel(list: { value: number; label: string }[], value: number): string {
     return list.find((x) => x.value === value)?.label ?? 'Unknown';
+  }
+
+  navigateBack() {
+    this.router.navigate(['home']);
   }
 }

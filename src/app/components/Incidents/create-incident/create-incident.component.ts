@@ -109,4 +109,8 @@ export class CreateIncidentComponent implements OnInit {
       },
     });
   }
+
+  navigateBack() {
+    this.router.navigate(['/home']);
+  }
 }

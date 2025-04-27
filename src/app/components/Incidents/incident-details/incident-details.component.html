@@ -3,125 +3,129 @@
   <div *ngIf="!loading && error" class="error">{{ error }}</div>
 </ng-template>
 
-<main *ngIf="!loading && incident; else loadingOrError">
-  <!-- DETAILS -->
-  <div class="details-card section">
-    <h2>Incident Details</h2>
-    <table class="details-table">
-      <tr>
-        <th>Call Type</th>
-        <td>{{ getLabel(callTypes, incident.callType) }}</td>
-      </tr>
-      <tr>
-        <th>Module</th>
-        <td>{{ getLabel(modules, incident.module) }}</td>
-      </tr>
-      <tr>
-        <th>URL / Form Name</th>
-        <td [ngClass]="{ empty: !incident.urlOrFormName }">
-          {{ incident.urlOrFormName || "—" }}
-        </td>
-      </tr>
-      <tr>
-        <th>Is Recurring</th>
-        <td>{{ incident.isRecurring ? "Yes" : "No" }}</td>
-      </tr>
-      <tr *ngIf="incident.isRecurring">
-        <th>Recurring Call ID</th>
-        <td>{{ incident.recurringCallId }}</td>
-      </tr>
-      <tr>
-        <th>Priority</th>
-        <td>{{ getLabel(priorities, incident.priority) }}</td>
-      </tr>
-      <tr>
-        <th>Subject</th>
-        <td>{{ incident.subject }}</td>
-      </tr>
-      <tr>
-        <th class="wide">Description</th>
-        <td class="wide">{{ incident.description }}</td>
-      </tr>
-      <tr>
-        <th class="wide">Suggestion</th>
-        <td class="wide" [ngClass]="{ empty: !incident.suggestion }">
-          {{ incident.suggestion || "—" }}
-        </td>
-      </tr>
-      <tr>
-        <th>Support Status</th>
-        <td>{{ getLabel(supportStatuses, incident.supportStatus) }}</td>
-      </tr>
-      <tr>
-        <th>User Status</th>
-        <td>{{ getLabel(userStatuses, incident.userStatus) }}</td>
-      </tr>
-      <tr>
-        <th>Created Date</th>
-        <td>{{ incident.createdDate | date : "mediumDate" }}</td>
-      </tr>
-      <tr>
-        <th>Delivery Date</th>
-        <td [ngClass]="{ empty: !incident.deliveryDate }">
-          {{
-            incident.deliveryDate
-              ? (incident.deliveryDate | date : "mediumDate")
-              : "—"
-          }}
-        </td>
-      </tr>
-      <tr>
-        <th>Logged By</th>
-        <td>{{ incident.loggedByUserName }}</td>
-      </tr>
-      <tr>
-        <th>Assigned To</th>
-        <td [ngClass]="{ empty: !incident.assignedToUserName }">
-          {{ incident.assignedToUserName || "—" }}
-        </td>
-      </tr>
-    </table>
-  </div>
-
-  <!-- COMMENTS -->
-  <section class="comments-section section">
-    <h2>Comments</h2>
-    <ul *ngIf="incident.comments?.length; else noComments" class="comment-list">
-      <li *ngFor="let c of incident.comments" class="comment-item">
-        <div class="comment-header">
-          <div class="user-info">
-            <div class="avatar">{{ c.createdBy.charAt(0) }}</div>
-            <span class="author">{{ c.createdBy }}</span>
-          </div>
-          <span class="date">{{ c.createdAt | date : "medium" }}</span>
-        </div>
-        <p class="comment-text">{{ c.text }}</p>
-      </li>
-    </ul>
-    <ng-template #noComments>
-      <p class="no-data">No comments available.</p>
-    </ng-template>
-  </section>
-
-  <!-- ATTACHMENTS -->
-  <section class="attachments-section section">
-    <h2>Attachments</h2>
-    <div
-      *ngIf="incident.attachments?.length; else noFiles"
-      class="attachments-grid"
-    >
-      <figure *ngFor="let a of incident.attachments" class="attachment-card">
-        <a [href]="a.filePath" target="_blank" rel="noopener">
-          <img [src]="a.filePath" [alt]="a.fileName" />
-        </a>
-        <figcaption>
-          <div class="file-name">{{ a.fileName }}</div>
-          <div class="file-date">{{ a.uploadedAt | date : "mediumDate" }}</div>
-        </figcaption>
-      </figure>
+<div>
+  <main *ngIf="!loading && incident; else loadingOrError">
+    <div class="details-card section">
+      <h2>Incident Details</h2>
+      <table class="details-table">
+        <tr>
+          <th>Call Type</th>
+          <td>{{ getLabel(callTypes, incident.callType) }}</td>
+        </tr>
+        <tr>
+          <th>Module</th>
+          <td>{{ getLabel(modules, incident.module) }}</td>
+        </tr>
+        <tr>
+          <th>URL / Form Name</th>
+          <td [ngClass]="{ empty: !incident.urlOrFormName }">
+            {{ incident.urlOrFormName || "—" }}
+          </td>
+        </tr>
+        <tr>
+          <th>Is Recurring</th>
+          <td>{{ incident.isRecurring ? "Yes" : "No" }}</td>
+        </tr>
+        <tr *ngIf="incident.isRecurring">
+          <th>Recurring Call ID</th>
+          <td>{{ incident.recurringCallId }}</td>
+        </tr>
+        <tr>
+          <th>Priority</th>
+          <td>{{ getLabel(priorities, incident.priority) }}</td>
+        </tr>
+        <tr>
+          <th>Subject</th>
+          <td>{{ incident.subject }}</td>
+        </tr>
+        <tr>
+          <th class="wide">Description</th>
+          <td class="wide">{{ incident.description }}</td>
+        </tr>
+        <tr>
+          <th class="wide">Suggestion</th>
+          <td class="wide" [ngClass]="{ empty: !incident.suggestion }">
+            {{ incident.suggestion || "—" }}
+          </td>
+        </tr>
+        <tr>
+          <th>Support Status</th>
+          <td>{{ getLabel(supportStatuses, incident.supportStatus) }}</td>
+        </tr>
+        <tr>
+          <th>User Status</th>
+          <td>{{ getLabel(userStatuses, incident.userStatus) }}</td>
+        </tr>
+        <tr>
+          <th>Created Date</th>
+          <td>{{ incident.createdDate | date : "mediumDate" }}</td>
+        </tr>
+        <tr>
+          <th>Delivery Date</th>
+          <td [ngClass]="{ empty: !incident.deliveryDate }">
+            {{
+              incident.deliveryDate
+                ? (incident.deliveryDate | date : "mediumDate")
+                : "—"
+            }}
+          </td>
+        </tr>
+        <tr>
+          <th>Logged By</th>
+          <td>{{ incident.loggedByUserName }}</td>
+        </tr>
+        <tr>
+          <th>Assigned To</th>
+          <td [ngClass]="{ empty: !incident.assignedToUserName }">
+            {{ incident.assignedToUserName || "—" }}
+          </td>
+        </tr>
+      </table>
     </div>
-    <ng-template #noFiles>
-      <p class="no-data">No attachments.</p>
-    </ng-template>
-  </section>
-</main>
+
+    <section class="comments-section section">
+      <h2>Comments</h2>
+      <ul
+        *ngIf="incident.comments?.length; else noComments"
+        class="comment-list"
+      >
+        <li *ngFor="let c of incident.comments" class="comment-item">
+          <div class="comment-header">
+            <div class="user-info">
+              <div class="avatar">{{ c.createdBy.charAt(0) }}</div>
+              <span class="author">{{ c.createdBy }}</span>
+            </div>
+            <span class="date">{{ c.createdAt | date : "medium" }}</span>
+          </div>
+          <p class="comment-text">{{ c.text }}</p>
+        </li>
+      </ul>
+      <ng-template #noComments>
+        <p class="no-data">No comments available.</p>
+      </ng-template>
+    </section>
+
+    <section class="attachments-section section">
+      <h2>Attachments</h2>
+      <div
+        *ngIf="incident.attachments?.length; else noFiles"
+        class="attachments-grid"
+      >
+        <figure *ngFor="let a of incident.attachments" class="attachment-card">
+          <a [href]="a.filePath" target="_blank" rel="noopener">
+            <img [src]="a.filePath" [alt]="a.fileName" />
+          </a>
+          <figcaption>
+            <div class="file-name">{{ a.fileName }}</div>
+            <div class="file-date">
+              {{ a.uploadedAt | date : "mediumDate" }}
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+      <ng-template #noFiles>
+        <p class="no-data">No attachments.</p>
+      </ng-template>
+    </section>
+  </main>
+</div>

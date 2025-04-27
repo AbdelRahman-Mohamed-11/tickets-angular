@@ -125,5 +125,8 @@
     </div>
 
     <button type="submit" [disabled]="!form.valid">Save</button>
+    <button type="button" (click)="navigateBack()" class="navigate-button">
+      Go Back
+    </button>
   </form>
 </div>
