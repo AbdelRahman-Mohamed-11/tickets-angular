@@ -6,17 +6,33 @@
 <div *ngIf="!loading && incident; else loadingOrError" class="update-card">
   <h2 class="title">Update Incident</h2>
 
-  <!-- Read-only header info -->
-  <dl class="details-grid">
-    <dt>Subject</dt>
-    <dd>{{ incident.subject }}</dd>
+  <div class="incident-details">
+    <dl class="details-grid">
+      <div class="detail-item">
+        <dt>
+          <i class="fas fa-ticket-alt"></i>
+          Subject
+        </dt>
+        <dd>{{ incident.subject }}</dd>
+      </div>
 
-    <dt>Description</dt>
-    <dd class="wide">{{ incident.description }}</dd>
+      <div class="detail-item description">
+        <dt>
+          <i class="fas fa-align-left"></i>
+          Description
+        </dt>
+        <dd>{{ incident.description }}</dd>
+      </div>
 
-    <dt>Created</dt>
-    <dd>{{ incident.createdDate | date : "yyyy-MM-dd" }}</dd>
-  </dl>
+      <div class="detail-item">
+        <dt>
+          <i class="far fa-calendar-alt"></i>
+          Created
+        </dt>
+        <dd>{{ incident.createdDate | date : "longDate" }}</dd>
+      </div>
+    </dl>
+  </div>
 
   <!-- Update form -->
   <section class="update-form-section">
@@ -101,17 +117,32 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="files">New Attachments</label>
+      <div class="form-group file-upload">
+        <label for="files" class="file-label">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <span>Drop files here or click to upload</span>
+          <small>Supported formats: Images and pdfs only</small>
+        </label>
         <input
           id="files"
           type="file"
           (change)="onFileChange($event)"
           multiple
           accept="image/*"
+          class="file-input"
         />
+        <div class="selected-files" *ngIf="filesToUpload.length">
+          <p>Selected files ({{ filesToUpload.length }}):</p>
+          <ul>
+            <li *ngFor="let file of filesToUpload">
+              {{ file.name }}
+              <span class="file-size"
+                >({{ (file.size / 1024).toFixed(1) }} KB)</span
+              >
+            </li>
+          </ul>
+        </div>
       </div>
-
       <button
         type="submit"
         class="btn-save"
