@@ -1,0 +1,127 @@
+:root {
+  --bg-page: #f5f7fa;
+  --bg-card: #ffffff;
+  --text-primary: #2c3e50;
+  --text-secondary: #4a4a4a;
+  --text-muted: #7f8c8d;
+  --accent: #3498db;
+  --radius: 0.5rem;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  background-color: var(--bg-page);
+}
+
+.details-card {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  font-family: "Roboto", sans-serif;
+  color: var(--text-secondary);
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.25rem;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 2rem;
+}
+
+.details-grid dt {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.details-grid dd {
+  margin: 0;
+}
+
+.details-grid .wide {
+  grid-column: 1 / -1;
+  background: #fafafa;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+}
+
+section {
+  margin-top: 2rem;
+}
+
+section h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 0.25rem;
+}
+
+.no-data {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.attachments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.attachment-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.attachment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.attachment-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  display: block;
+}
+
+.attachment-card figcaption {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.file-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 600px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+}

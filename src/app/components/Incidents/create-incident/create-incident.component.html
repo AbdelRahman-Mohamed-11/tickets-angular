@@ -1,0 +1,129 @@
+<div class="create-incident-form">
+  <form #form="ngForm" (ngSubmit)="saveIncident()">
+    <div>
+      <label>Call Type: <span class="required">*</span></label>
+      <select
+        [(ngModel)]="incident.callType"
+        name="callType"
+        required
+        #callType="ngModel"
+      >
+        <option [ngValue]="null">Select...</option>
+        <option *ngFor="let type of callTypes" [ngValue]="type.value">
+          {{ type.label }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label>Module: <span class="required">*</span></label>
+      <select
+        [(ngModel)]="incident.module"
+        name="module"
+        required
+        #module="ngModel"
+      >
+        <option [ngValue]="null">Select...</option>
+        <option *ngFor="let mod of modules" [ngValue]="mod.value">
+          {{ mod.label }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label>URL/Form Name: <span class="required">*</span></label>
+      <input
+        type="text"
+        [(ngModel)]="incident.urlOrFormName"
+        name="urlOrFormName"
+        required
+        maxlength="500"
+        #urlOrFormName="ngModel"
+      />
+    </div>
+
+    <div class="checkbox-wrapper">
+      <label>Recurring Call:</label>
+      <input
+        type="checkbox"
+        [(ngModel)]="incident.isRecurring"
+        name="isRecurring"
+        (change)="onRecurringChange()"
+      />
+    </div>
+
+    <div *ngIf="incident.isRecurring">
+      <label>Select Recurring Call: <span class="required">*</span></label>
+      <select
+        [(ngModel)]="incident.recurringCallId"
+        name="recurringCallId"
+        required
+        #recurringCallId="ngModel"
+      >
+        <option [ngValue]="null">Select...</option>
+        <option *ngFor="let item of incidents" [ngValue]="item.id">
+          {{ item.subject }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label>Priority: <span class="required">*</span></label>
+      <select
+        [(ngModel)]="incident.priority"
+        name="priority"
+        required
+        #priority="ngModel"
+      >
+        <option [ngValue]="null">Select...</option>
+        <option *ngFor="let p of priorities" [ngValue]="p.value">
+          {{ p.label }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label>Subject: <span class="required">*</span></label>
+      <input
+        type="text"
+        [(ngModel)]="incident.subject"
+        name="subject"
+        required
+        maxlength="500"
+        #subject="ngModel"
+      />
+    </div>
+
+    <div>
+      <label>Incident Description: <span class="required">*</span></label>
+      <textarea
+        [(ngModel)]="incident.description"
+        name="description"
+        required
+        maxlength="500"
+        #description="ngModel"
+      ></textarea>
+    </div>
+
+    <div>
+      <label>Suggestion: <span class="required">*</span></label>
+      <textarea
+        [(ngModel)]="incident.suggestion"
+        name="suggestion"
+        required
+        maxlength="500"
+        #suggestion="ngModel"
+      ></textarea>
+    </div>
+
+    <div>
+      <label>Attachments:</label>
+      <input type="file" (change)="onFileSelected($event)" multiple />
+      <div *ngIf="selectedFiles?.length">
+        {{ selectedFiles.length }} file(s) selected
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!form.valid">Save</button>
+  </form>
+</div>

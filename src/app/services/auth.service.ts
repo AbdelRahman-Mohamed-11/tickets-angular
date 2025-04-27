@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LoginRequest, LoginResponse } from '../interfaces/auth.interface';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this.checkInitialAuth();
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.API_URL}/auth/users`);
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {

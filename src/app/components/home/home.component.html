@@ -7,51 +7,203 @@
     {{ error }}
   </div>
 
-  <div class="table-container" *ngIf="!loading && !error">
-    <table class="accident-table">
-      <thead>
-        <tr>
-          <th>Call Ref</th>
-          <th>Log Date</th>
-          <th>Delivery Date</th>
-          <th>Incident Description</th>
-          <th>Subject</th>
-          <th>Support Status</th>
-          <th>User Status</th>
-          <th>Call Type</th>
-          <th>User Priority</th>
-          <th>Module</th>
-          <th>Reported By</th>
-          <th>Closed Date</th>
-          <th>Status Updated Date</th>
-          <th>URL/Form Name</th>
-          <th>Assigned To</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let accident of accidents">
-          <td>{{ accident.callRef }}</td>
-          <td>{{ accident.createdDate | date : "yyyy-MM-dd" }}</td>
-          <td>{{ accident.deliveryDate | date : "yyyy-MM-dd" }}</td>
-          <td>{{ accident.description }}</td>
-          <td>{{ accident.subject }}</td>
-          <td>{{ mapSupportStatus(accident.supportStatus) }}</td>
-          <td>{{ mapUserStatus(accident.userStatus) }}</td>
-          <td>{{ mapCallType(accident.callType) }}</td>
-          <td>{{ mapPriority(accident.userPriority) }}</td>
-          <td>{{ mapModule(accident.module) }}</td>
-          <td>{{ accident.loggedByUser }}</td>
-          <td>{{ accident.closedDate | date : "yyyy-MM-dd" }}</td>
-          <td>{{ accident.statusUpdated | date : "short" }}</td>
-          <td>{{ accident.urlOrFormName }}</td>
-          <td>{{ accident.assignedToUserName }}</td>
-          <td class="actions-cell">
-            <button class="view-btn">View</button>
-            <button class="update-btn">Update</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="!loading && !error">
+    <div class="create-incident-btn">
+      <button (click)="navigateToCreateIncident()">
+        + Create New Incident
+      </button>
+    </div>
+
+    <div class="filters-container">
+      <div class="filter-item">
+        <label>Support Status:</label>
+        <select
+          [(ngModel)]="filters.supportStatus"
+          (change)="onFiltersChange()"
+        >
+          <option [ngValue]="null">All</option>
+          <option [ngValue]="1">Pending</option>
+          <option [ngValue]="2">Work In Progress</option>
+          <option [ngValue]="3">Delivered</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label>User Status:</label>
+        <select [(ngModel)]="filters.userStatus" (change)="onFiltersChange()">
+          <option [ngValue]="null">All</option>
+          <option [ngValue]="1">Pending</option>
+          <option [ngValue]="2">Reopen</option>
+          <option [ngValue]="3">Closed</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label>Module:</label>
+        <select [(ngModel)]="filters.module" (change)="onFiltersChange()">
+          <option [ngValue]="null">All</option>
+          <option [ngValue]="1">Finance</option>
+          <option [ngValue]="2">Purchase</option>
+          <option [ngValue]="3">Stock</option>
+          <option [ngValue]="4">Sales/CRM</option>
+          <option [ngValue]="5">Service</option>
+          <option [ngValue]="6">HRMS</option>
+          <option [ngValue]="7">MyLog</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label>Priority:</label>
+        <select [(ngModel)]="filters.priority" (change)="onFiltersChange()">
+          <option [ngValue]="null">All</option>
+          <option [ngValue]="1">Showstopper</option>
+          <option [ngValue]="2">High</option>
+          <option [ngValue]="3">Medium</option>
+          <option [ngValue]="4">Low</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label>Assigned To:</label>
+        <select [(ngModel)]="filters.assignedToId" (change)="onFiltersChange()">
+          <option [ngValue]="null">All</option>
+          <option *ngFor="let user of users" [ngValue]="user.id">
+            {{ user.userName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label>From Date:</label>
+        <input
+          type="date"
+          [(ngModel)]="filters.fromDate"
+          (change)="onFiltersChange()"
+        />
+      </div>
+
+      <div class="filter-item">
+        <label>To Date:</label>
+        <input
+          type="date"
+          [(ngModel)]="filters.toDate"
+          (change)="onFiltersChange()"
+        />
+      </div>
+
+      <div class="filter-item full-width">
+        <button class="reset-btn" (click)="resetFilters()">
+          Reset Filters
+        </button>
+      </div>
+    </div>
+
+    <div class="page-size-selector">
+      <label>Records per page:</label>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">
+          {{ size }}
+        </option>
+      </select>
+    </div>
+
+    <div class="table-container">
+      <table
+        class="accident-table"
+        *ngIf="accidents.length > 0; else noResults"
+        @fadeIn
+      >
+        <thead>
+          <tr>
+            <th>Call Ref</th>
+            <th>Log Date</th>
+            <th>Delivery Date</th>
+            <th>Incident Description</th>
+            <th>Subject</th>
+            <th>Support Status</th>
+            <th>User Status</th>
+            <th>Call Type</th>
+            <th>User Priority</th>
+            <th>Module</th>
+            <th>Reported By</th>
+            <th>Closed Date</th>
+            <th>Status Updated Date</th>
+            <th>URL/Form Name</th>
+            <th>Assigned To</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let accident of accidents">
+            <td>{{ accident.callRef }}</td>
+            <td>{{ accident.createdDate | date : "yyyy-MM-dd" }}</td>
+            <td>
+              {{
+                accident.deliveryDate
+                  ? (accident.deliveryDate | date : "yyyy-MM-dd")
+                  : "-"
+              }}
+            </td>
+            <td>{{ accident.description }}</td>
+            <td>{{ accident.subject }}</td>
+            <td>{{ mapSupportStatus(accident.supportStatus) }}</td>
+            <td>{{ mapUserStatus(accident.userStatus) }}</td>
+            <td>{{ mapCallType(accident.callType) }}</td>
+            <td>{{ mapPriority(accident.priority) }}</td>
+            <td>{{ mapModule(accident.module) }}</td>
+            <td>{{ accident.loggedByUser }}</td>
+            <td>
+              {{
+                accident.closedDate
+                  ? (accident.closedDate | date : "yyyy-MM-dd")
+                  : "-"
+              }}
+            </td>
+            <td>
+              {{
+                accident.statusUpdated
+                  ? (accident.statusUpdated | date : "yyyy-MM-dd")
+                  : "-"
+              }}
+            </td>
+            <td>{{ accident.urlOrFormName }}</td>
+            <td>{{ accident.assignedToUserName }}</td>
+            <td class="actions-cell">
+              <button
+                class="view-btn"
+                (click)="navigateToViewIncident(accident.id)"
+              >
+                View
+              </button>
+              <button class="update-btn">Update</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ng-template #noResults>
+        <div class="no-results">No results found.</div>
+      </ng-template>
+
+      <div *ngIf="totalPages > 0" class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage <= 1">
+          Previous
+        </button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage >= totalPages">
+          Next
+        </button>
+      </div>
+
+      <div *ngIf="totalPages === 0" class="pagination-controls">
+        <span>No pages available</span>
+      </div>
+
+      <div class="pagination-info" *ngIf="totalCount > 0">
+        Showing {{ (currentPage - 1) * pageSize + 1 }} -
+        {{ getMin(currentPage * pageSize, totalCount) }} of
+        {{ totalCount }} results
+      </div>
+    </div>
   </div>
 </div>

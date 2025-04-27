@@ -21,12 +21,66 @@ h1 {
   margin-bottom: 1rem;
 }
 
+/* Filters */
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-end;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.full-width {
+  flex: 1 1 100%;
+}
+
+.filter-item label {
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.filter-item select,
+.filter-item input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.reset-btn {
+  padding: 0.5rem 1rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: #c82333;
+}
+
+/* Page Size */
+.page-size-selector {
+  margin-bottom: 1rem;
+}
+
+/* Table */
 .table-container {
   overflow-x: auto;
 }
 
 .accident-table {
-  width: 100%;
+  width: max-content;
+  min-width: 1200px;
   border-collapse: collapse;
   background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -37,6 +91,7 @@ h1 {
   padding: 1rem;
   text-align: left;
   border-bottom: 1px solid #eee;
+  white-space: nowrap;
 }
 
 .accident-table th {
@@ -48,65 +103,34 @@ h1 {
   background-color: #f8f9fa;
 }
 
-.status-badge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
+.no-results {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
 }
 
-.status-badge.open {
-  background-color: #e3f2fd;
-  color: #0d47a1;
-}
-
-.status-badge.closed {
-  background-color: #e8f5e9;
-  color: #1b5e20;
-}
-
-.priority-badge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
-}
-
-.priority-badge.high {
-  background-color: #ffebee;
-  color: #c62828;
-}
-
-.priority-badge.medium {
-  background-color: #fff3e0;
-  color: #ef6c00;
-}
-
-.priority-badge.low {
-  background-color: #f1f8e9;
-  color: #33691e;
-}
-
-.view-btn {
+/* Actions Buttons */
+.view-btn,
+.update-btn {
   padding: 0.5rem 1rem;
-  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s;
+}
+
+.view-btn {
+  background-color: #007bff;
 }
 
 .view-btn:hover {
   background-color: #0056b3;
 }
+
 .update-btn {
-  padding: 0.5rem 1rem;
   background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
   margin-left: 0.5rem;
-  transition: background-color 0.2s;
 }
 
 .update-btn:hover {
@@ -116,4 +140,55 @@ h1 {
 .actions-cell {
   display: flex;
   align-items: center;
+}
+
+/* Pagination */
+.pagination-controls {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination-controls button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+.create-incident-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.create-incident-btn button {
+  padding: 0.6rem 1.5rem;
+  background-color: #28a745;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-incident-btn button:hover {
+  background-color: #218838;
 }

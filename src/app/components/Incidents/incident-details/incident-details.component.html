@@ -1,0 +1,97 @@
+<ng-template #loadingOrError>
+  <div *ngIf="loading" class="loading">Loading details…</div>
+  <div *ngIf="!loading && error" class="error">{{ error }}</div>
+</ng-template>
+
+<div class="details-card" *ngIf="!loading && incident; else loadingOrError">
+  <h2>Incident Details</h2>
+
+  <dl class="details-grid">
+    <dt>Call Type</dt>
+    <dd>{{ getLabel(callTypes, incident.callType) }}</dd>
+
+    <dt>Module</dt>
+    <dd>{{ getLabel(modules, incident.module) }}</dd>
+
+    <dt>URL/Form Name</dt>
+    <dd>{{ incident.urlOrFormName }}</dd>
+
+    <dt>Is Recurring</dt>
+    <dd>{{ incident.isRecurring ? "Yes" : "No" }}</dd>
+
+    <ng-container *ngIf="incident.isRecurring">
+      <dt>Recurring Call</dt>
+      <dd>{{ incident.recurringCallId }}</dd>
+    </ng-container>
+
+    <dt>Priority</dt>
+    <dd>{{ getLabel(priorities, incident.priority) }}</dd>
+
+    <dt>Subject</dt>
+    <dd>{{ incident.subject }}</dd>
+
+    <dt class="wide">Description</dt>
+    <dd class="wide">{{ incident.description }}</dd>
+
+    <dt class="wide">Suggestion</dt>
+    <dd class="wide">{{ incident.suggestion || "-" }}</dd>
+
+    <dt>Support Status</dt>
+    <dd>{{ getLabel(supportStatuses, incident.supportStatus) }}</dd>
+
+    <dt>User Status</dt>
+    <dd>{{ getLabel(userStatuses, incident.userStatus) }}</dd>
+
+    <dt>Created Date</dt>
+    <dd>{{ incident.createdDate | date : "mediumDate" }}</dd>
+
+    <dt>Delivery Date</dt>
+    <dd>
+      {{
+        incident.deliveryDate
+          ? (incident.deliveryDate | date : "mediumDate")
+          : "-"
+      }}
+    </dd>
+
+    <dt>Logged By</dt>
+    <dd>{{ incident.loggedByUserName }}</dd>
+
+    <dt>Assigned To</dt>
+    <dd>{{ incident.assignedToUserName || "-" }}</dd>
+  </dl>
+
+  <section class="comments-section">
+    <h3>Comments</h3>
+    <div *ngIf="incident.comments?.length; else noComments">
+      <div *ngFor="let c of incident.comments" class="comment">
+        <div class="comment-meta">{{ c.createdAt | date : "mediumDate" }}</div>
+        <div class="comment-text">{{ c.text }}</div>
+      </div>
+    </div>
+    <ng-template #noComments>
+      <p class="no-data">No comments.</p>
+    </ng-template>
+  </section>
+
+  <section class="attachments-section">
+    <h3>Attachments</h3>
+    <div
+      *ngIf="incident.attachments?.length; else noFiles"
+      class="attachments-grid"
+    >
+      <figure *ngFor="let a of incident.attachments" class="attachment-card">
+        <a [href]="a.filePath" target="_blank" rel="noopener">
+          <img [src]="a.filePath" [alt]="a.fileName" />
+        </a>
+        <figcaption>
+          <div class="file-name">{{ a.fileName }}</div>
+          <div class="file-date">{{ a.uploadedAt | date : "mediumDate" }}</div>
+        </figcaption>
+      </figure>
+    </div>
+    <ng-template #noFiles>
+      <p class="no-data">No attachments.</p>
+    </ng-template>
+  </section>
+</div>

@@ -8,7 +8,7 @@ export interface Accident {
   supportStatus: string;
   userStatus: string;
   callType: string;
-  userPriority: string;
+  priority: string;
   module: string;
   loggedById: string;
   loggedByUser: string;
